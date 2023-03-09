@@ -1,4 +1,5 @@
 import requests
+import re
 
 URL: str = 'https://www.scrapethissite.com/pages/'
 
@@ -15,9 +16,15 @@ def create_html_file(html_structure: str, file_name: str):
         file.write(html_structure)
 
 
+def get_titles(url: str, regex: str) -> list:
+    titles = []
+    content = get_html_structure(url)
+    for title in re.findall(regex, content):
+        titles.append(title[1])
+    return titles
+
+
 if __name__ == '__main__':
-
-    # print(get_html_structure(URL))
-    html_content = get_html_structure(URL)
-    # create_html_file(html_content, 'sandboxcopy.html')
-
+    #regex = '<a href="(.+?)">(.+?)</a>'
+    tag = '<a href="(.+?)">(.+?)</a>'
+    print(get_titles(URL, tag))
